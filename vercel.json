@@ -1,15 +1,44 @@
 {
-  "buildCommand": "flutter build web --release",
+  "github": {
+    "silent": true
+  },
+  "buildCommand": "flutter build web --release --web-renderer html --base-href /",
   "outputDirectory": "build/web",
   "installCommand": "flutter pub get",
   "framework": null,
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/icons/(.*)",
+      "dest": "/icons/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "dest": "/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ],
-  "functions": {},
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "credentialless"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        }
+      ]
+    }
+  ],
   "env": {
     "FLUTTER_WEB": "true"
   }
